@@ -1,6 +1,7 @@
 ﻿using Rocket.Unturned.Player;
 using SDG.Unturned;
 using Steamworks;
+using System.Linq;
 
 namespace RocketExtensions.Models
 {
@@ -9,6 +10,9 @@ namespace RocketExtensions.Models
     /// </summary>
     public static class StringTypeConverter
     {
+        private static readonly string[] m_ValsTrue = { "true", "enabled", "on", "active", "t", "1", "yes" };
+        private static readonly string[] m_ValsFalse = { "false", "disabled", "off", "unactive", "f", "0", "no" };
+
         public static EParseResult Parse<T>(string input, out T result)
         {
             result = default(T);
@@ -176,6 +180,22 @@ namespace RocketExtensions.Models
                 {
                     return EParseResult.ParseFailed;
                 }
+            }
+            else if (t == typeof(bool))
+            {
+                var lower = input.ToLowerInvariant();
+
+                if (m_ValsTrue.Contains(lower))
+                {
+                    result = (T)(object)true;
+                    return EParseResult.Parsed;
+                }
+                else if (m_ValsFalse.Contains(lower))
+                {
+                    result = (T)(object)false;
+                    return EParseResult.Parsed;
+                }
+                return EParseResult.ParseFailed;
             }
 
             return EParseResult.InvalidType;
