@@ -2,6 +2,7 @@
 using Rocket.Unturned.Chat;
 using RocketExtensions.Utilities.ShimmyMySherbet.Extensions;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace RocketExtensions.Models
 {
@@ -21,11 +22,15 @@ namespace RocketExtensions.Models
             Arguments = new ArgumentList(args);
         }
 
-        public async Task ReplyAsync(string message)
+        public async Task ReplyAsync(string message, Color? messageColor = null)
         {
+            if (messageColor == null)
+            {
+                messageColor = Color.green;
+            }
             await ThreadTool.RunOnGameThreadAsync((IRocketPlayer player, string msg) =>
             {
-                UnturnedChat.Say(player, msg, true);
+                UnturnedChat.Say(player, msg, messageColor.Value, true);
             }, Player, message);
         }
     }
