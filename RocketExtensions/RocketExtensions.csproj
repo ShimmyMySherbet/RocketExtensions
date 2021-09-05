@@ -6,7 +6,9 @@
     <Description>Extends the functionality of RocketMod plugins to allow for async UniTask based commands.
 Compatible with unmodified/stock RocketMod.</Description>
     <RepositoryUrl>https://github.com/ShimmyMySherbet/RocketExtensions</RepositoryUrl>
-    <PackageTags>Unturned Rocketmod</PackageTags>
+    <PackageTags>Rocket Plugin Rocketmod Unturned</PackageTags>
+    <PackageIcon>RocketExtensions.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
@@ -31,6 +33,13 @@ Compatible with unmodified/stock RocketMod.</Description>
     <Reference Include="Rocket.Unturned">
       <HintPath>..\Rocket\Rocket.Unturned.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\RocketExtensions.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
