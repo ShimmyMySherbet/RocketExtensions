@@ -24,15 +24,12 @@ namespace RocketExtensions.Core
             // Origonal from https://github.com/openmod/openmod/blob/main/unityengine/OpenMod.UnityEngine/UnityHostLifetime.cs
             // Origonal Author: Trojaner
 
-            var unitySynchronizationContextField =
-                typeof(PlayerLoopHelper).GetField("unitySynchronizationContext",
-                    BindingFlags.Static | BindingFlags.NonPublic);
+            var unitySynchronizationContextField = typeof(PlayerLoopHelper).GetField("unitySynchronizationContext", BindingFlags.Static | BindingFlags.NonPublic);
 
             unitySynchronizationContextField.SetValue(null, SynchronizationContext.Current);
 
             var mainThreadIdField =
-                typeof(PlayerLoopHelper).GetField("mainThreadId", BindingFlags.Static | BindingFlags.NonPublic)
-                ?? throw new Exception("Could not find PlayerLoopHelper.mainThreadId field");
+                typeof(PlayerLoopHelper).GetField("mainThreadId", BindingFlags.Static | BindingFlags.NonPublic) ?? throw new Exception("Could not find PlayerLoopHelper.mainThreadId field");
             mainThreadIdField.SetValue(null, Thread.CurrentThread.ManagedThreadId);
 
             var playerLoop = PlayerLoop.GetCurrentPlayerLoop();

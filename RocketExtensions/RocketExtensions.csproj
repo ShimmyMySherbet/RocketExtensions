@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>net48</TargetFrameworks>
+    <PackageId>ShimmyMySherbet.RocketExtensions</PackageId>
+    <Description>Extends the functionality of RocketMod plugins to allow for async UniTask based commands.
+Compatible with unmodified/stock RocketMod.</Description>
+    <RepositoryUrl>https://github.com/ShimmyMySherbet/RocketExtensions</RepositoryUrl>
+    <PackageTags>Unturned Rocketmod</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
