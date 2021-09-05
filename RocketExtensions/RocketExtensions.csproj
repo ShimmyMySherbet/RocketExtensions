@@ -9,6 +9,7 @@ Compatible with unmodified/stock RocketMod.</Description>
     <PackageTags>Rocket Plugin Rocketmod Unturned</PackageTags>
     <PackageIcon>RocketExtensions.png</PackageIcon>
     <PackageIconUrl />
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
