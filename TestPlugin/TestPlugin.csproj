@@ -88,13 +88,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RocketExtensions\RocketExtensions.csproj">
-      <Project>{1bea5671-80d4-425f-bc25-8118727e7cb7}</Project>
-      <Name>RocketExtensions</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\RocketExtensions\RocketExtensions.csproj">
+      <Project>{f37b8b42-83b2-4a65-ac5f-f50ee135dbd2}</Project>
+      <Name>RocketExtensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
