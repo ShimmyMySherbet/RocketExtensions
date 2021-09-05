@@ -27,3 +27,7 @@ This library is compatible with normal, unmodified rocketmod. You just need to i
 ## Installation
 
 Install via nuget: **`Install-Package ShimmyMySherbet.RocketExtensions`**
+
+Note: For now the nuget package does not come with the Rocketmod libraries, but it does include Unity, Unitask, and Unturned.
+
+An updated Rocketmod redist package may be added in the future.
