@@ -23,3 +23,7 @@ This library is compatible with normal, unmodified rocketmod. You just need to i
 ### Misc
 * Thread tools to leverage easier multi-threading even outside of UniTask commands
 * `FastTaskDispatcher` for a higher-performance game thread dispatcher compared to the built-in Rocketmod one.
+
+## Installation
+
+Install via nuget: **`Install-Package ShimmyMySherbet.RocketExtensions`**
