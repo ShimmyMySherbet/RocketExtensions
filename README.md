@@ -7,7 +7,7 @@ This library is compatible with normal, unmodified rocketmod. You just need to i
 * **Commands inherit `RocketCommand`**
 * Commands are async and use UniTask, starting on the thread pool
 * Command details are defined using attributes: `Aliases`, `AllowedCaller`, `CommandInfo`, and `CommandName`
-* Comand name defaults to the class name without 'Command'
+* Comand name defaults to the class name without 'Command' *(e.g., ItemCommand.cs would default to /Item)*
 * Command Permissions defaults to *{AssemblyName}*.*{CommandName}*
 * Allowed Caller defaults to both
 * Context is passed in `(CommandContext context)` in the execute method.
