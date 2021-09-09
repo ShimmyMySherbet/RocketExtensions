@@ -31,3 +31,6 @@ Install via nuget: **`Install-Package ShimmyMySherbet.RocketExtensions`**
 Note: For now the nuget package does not come with the Rocketmod libraries, but it does include Unity, Unitask, and Unturned.
 
 An updated Rocketmod redist package may be added in the future.
+
+## Note
+Only use this library if you have to develop for RocketMod, where possible, it is advised to use <a href="https://github.com/openmod/openmod">Openmod</a> instead. This library just mimics some of Openmod's features.
