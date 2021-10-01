@@ -152,7 +152,7 @@ namespace RocketExtensions.Models
                 }
                 else
                 {
-                    return EParseResult.ParseFailed;
+                    return EParseResult.PlayerNotFound;
                 }
             }
             else if (t == typeof(UnturnedPlayer))

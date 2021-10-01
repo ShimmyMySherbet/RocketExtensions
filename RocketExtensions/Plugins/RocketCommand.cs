@@ -182,13 +182,17 @@ namespace RocketExtensions.Plugins
             }
             catch (InvalidArgumentException invalid)
             {
-                await context.ReplyAsync(invalid.Message);
-                await context.ReplyAsync($"Command Usage: {Syntax}");
+                await context.ReplyAsync(invalid.Message, UnityEngine.Color.red);
+                await context.ReplyAsync($"Command Usage: /{Name} {Syntax}", UnityEngine.Color.cyan);
+            }
+            catch (PlayerNotFoundException player)
+            {
+                await context.ReplyAsync(player.Message, UnityEngine.Color.red);
             }
             catch (ArgumentMissingException missing)
             {
-                await context.ReplyAsync(missing.Message);
-                await context.ReplyAsync($"Command Usage: {Syntax}");
+                await context.ReplyAsync(missing.Message, UnityEngine.Color.red);
+                await context.ReplyAsync($"Command Usage: /{Name} {Syntax}", UnityEngine.Color.cyan);
             }
             catch (WrongUsageOfCommandException usage)
             {
