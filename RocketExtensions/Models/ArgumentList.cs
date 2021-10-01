@@ -35,6 +35,10 @@ namespace RocketExtensions.Models
             {
                 throw new InvalidCastException($"Type {typeof(T).Name} is not valid for automatic string parsing");
             }
+            else if (result == EParseResult.PlayerNotFound)
+            {
+                return defaultValue;
+            }
             else if (result == EParseResult.ParseFailed)
             {
                 if (!string.IsNullOrEmpty(paramName))
@@ -73,6 +77,10 @@ namespace RocketExtensions.Models
             if (result == EParseResult.InvalidType)
             {
                 throw new InvalidCastException($"Type {typeof(T).Name} is not valid for automatic string parsing");
+            }
+            else if (result == EParseResult.PlayerNotFound)
+            {
+                throw new PlayerNotFoundException(value);
             }
             else if (result == EParseResult.ParseFailed)
             {

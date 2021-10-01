@@ -165,7 +165,7 @@ namespace RocketExtensions.Models
                 }
                 else
                 {
-                    return EParseResult.ParseFailed;
+                    return EParseResult.PlayerNotFound;
                 }
             }
             else if (t == typeof(SteamPlayer))
@@ -178,7 +178,7 @@ namespace RocketExtensions.Models
                 }
                 else
                 {
-                    return EParseResult.ParseFailed;
+                    return EParseResult.PlayerNotFound;
                 }
             }
             else if (t == typeof(bool))

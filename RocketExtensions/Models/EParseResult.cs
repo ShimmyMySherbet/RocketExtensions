@@ -4,6 +4,7 @@
     {
         Parsed,
         ParseFailed,
-        InvalidType
+        InvalidType,
+        PlayerNotFound
     }
 }
