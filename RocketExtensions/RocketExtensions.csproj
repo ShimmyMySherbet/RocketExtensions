@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net48</TargetFrameworks>
@@ -12,8 +12,10 @@ Compatible with unmodified/stock RocketMod.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>ShimmyMySherbet</Authors>
     <Company>ShimmyMySherbet</Company>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Added OpenMod presense check for UniTask setup</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
