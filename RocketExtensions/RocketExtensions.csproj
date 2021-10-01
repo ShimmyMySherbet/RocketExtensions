@@ -10,6 +10,10 @@ Compatible with unmodified/stock RocketMod.</Description>
     <PackageIcon>RocketExtensions.png</PackageIcon>
     <PackageIconUrl />
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>ShimmyMySherbet</Authors>
+    <Company>ShimmyMySherbet</Company>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">

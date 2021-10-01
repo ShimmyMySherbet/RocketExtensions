@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using UnityEngine.LowLevel;
@@ -24,16 +25,21 @@ namespace RocketExtensions.Core
             // Origonal from https://github.com/openmod/openmod/blob/main/unityengine/OpenMod.UnityEngine/UnityHostLifetime.cs
             // Origonal Author: Trojaner
 
-            var unitySynchronizationContextField = typeof(PlayerLoopHelper).GetField("unitySynchronizationContext", BindingFlags.Static | BindingFlags.NonPublic);
+            if (!IsOpenmodPresent())
+            {
+                var unitySynchronizationContextField = typeof(PlayerLoopHelper).GetField("unitySynchronizationContext", BindingFlags.Static | BindingFlags.NonPublic);
 
-            unitySynchronizationContextField.SetValue(null, SynchronizationContext.Current);
+                unitySynchronizationContextField.SetValue(null, SynchronizationContext.Current);
 
-            var mainThreadIdField =
-                typeof(PlayerLoopHelper).GetField("mainThreadId", BindingFlags.Static | BindingFlags.NonPublic) ?? throw new Exception("Could not find PlayerLoopHelper.mainThreadId field");
-            mainThreadIdField.SetValue(null, Thread.CurrentThread.ManagedThreadId);
+                var mainThreadIdField =
+                    typeof(PlayerLoopHelper).GetField("mainThreadId", BindingFlags.Static | BindingFlags.NonPublic) ?? throw new Exception("Could not find PlayerLoopHelper.mainThreadId field");
+                mainThreadIdField.SetValue(null, Thread.CurrentThread.ManagedThreadId);
 
-            var playerLoop = PlayerLoop.GetCurrentPlayerLoop();
-            PlayerLoopHelper.Initialize(ref playerLoop);
+                var playerLoop = PlayerLoop.GetCurrentPlayerLoop();
+                PlayerLoopHelper.Initialize(ref playerLoop);
+            }
         }
+
+        public static bool IsOpenmodPresent() => AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName().Name == "OpenMod.Core");
     }
 }
