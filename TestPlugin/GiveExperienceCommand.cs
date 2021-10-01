@@ -10,8 +10,8 @@ namespace TestPlugin
     {
         public override async UniTask Execute(CommandContext context)
         {
-            var player = context.Arguments.Get<Player>(0);
-            var amount = context.Arguments.Get(1, defaultValue: 1000u);
+            var player = context.Arguments.Get<Player>(0, paramName: "Target Player");
+            var amount = context.Arguments.Get(1, defaultValue: 1000u, paramName: "Amount");
 
             await context.ReplyAsync($"Giving {player.name} {amount}xp...");
 

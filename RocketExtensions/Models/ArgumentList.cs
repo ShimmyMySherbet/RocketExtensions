@@ -16,10 +16,35 @@ namespace RocketExtensions.Models
         }
 
         // Backward Compatability
+
+        /// <summary>
+        /// Parses an argument.
+        /// Supports primitive types, and <see cref="SDG.Unturned.Player"/>, <see cref="SDG.Unturned.SteamPlayer"/>, and <see cref="Rocket.Unturned.Player.UnturnedPlayer"/>
+        /// Will throw and send a user-friendly message on invalid argument, and player not found.
+        /// </summary>
+        /// <param name="index">Index of the parameter</param>
+        /// <param name="defaultValue">Default value to be returned instead of the argument was not supplied.</param>
+        /// <returns>Parsed Value</returns>
         public T Get<T>(int index, T defaultValue) => Get<T>(index, defaultValue, paramName: null);
 
+        /// <summary>
+        /// Parses an argument.
+        /// Supports primitive types, and <see cref="SDG.Unturned.Player"/>, <see cref="SDG.Unturned.SteamPlayer"/>, and <see cref="Rocket.Unturned.Player.UnturnedPlayer"/>
+        /// Will throw and send a user-friendly message on invalid argument, and player not found, and argument missing.
+        /// </summary>
+        /// <param name="index">Index of the parameter</param>
+        /// <returns>Parsed Value</returns>
         public T Get<T>(int index) => Get<T>(index, paramName: null);
 
+        /// <summary>
+        /// Parses an argument.
+        /// Supports primitive types, and <see cref="SDG.Unturned.Player"/>, <see cref="SDG.Unturned.SteamPlayer"/>, and <see cref="Rocket.Unturned.Player.UnturnedPlayer"/>
+        /// Will throw and send a user-friendly message on invalid argument, and player not found.
+        /// </summary>
+        /// <param name="index">Index of the parameter</param>
+        /// <param name="defaultValue">Default value to be returned instead of the argument was not supplied.</param>
+        /// <param name="paramName">The parameter name to be used in User Friendly error messages</param>
+        /// <returns>Parsed Value</returns>
         public T Get<T>(int index, T defaultValue, string paramName = null)
         {
             if (index >= m_Items.Count)
@@ -56,6 +81,14 @@ namespace RocketExtensions.Models
             }
         }
 
+        /// <summary>
+        /// Parses an argument.
+        /// Supports primitive types, and <see cref="SDG.Unturned.Player"/>, <see cref="SDG.Unturned.SteamPlayer"/>, and <see cref="Rocket.Unturned.Player.UnturnedPlayer"/>
+        /// Will throw and send a user-friendly message on invalid argument, and player not found, and argument missing.
+        /// </summary>
+        /// <param name="index">Index of the parameter</param>
+        /// <param name="paramName">The parameter name to be used in User Friendly error messages</param>
+        /// <returns>Parsed Value</returns>
         public T Get<T>(int index, string paramName = null)
         {
             if (index >= m_Items.Count)
