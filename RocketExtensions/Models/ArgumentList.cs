@@ -40,7 +40,10 @@ namespace RocketExtensions.Models
             }
         }
 
-        public T Get<T>(int index)
+
+        public T Get<T>(int index) => Get<T>(index); // Backward Compatability
+
+        public T Get<T>(int index, string paramName = null)
         {
             if (index >= m_Items.Count)
             {
@@ -57,7 +60,14 @@ namespace RocketExtensions.Models
             }
             else if (result == EParseResult.ParseFailed)
             {
-                throw new InvalidArgumentException(index);
+                if (!string.IsNullOrEmpty(paramName))
+                {
+                    throw new InvalidArgumentException(paramName);
+
+                } else
+                {
+                    throw new InvalidArgumentException(index);
+                }
             }
             else
             {
