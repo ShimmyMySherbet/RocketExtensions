@@ -30,7 +30,7 @@ namespace RocketExtensions.Models
         /// <summary>
         /// Parses an argument.
         /// Supports primitive types, and <see cref="SDG.Unturned.Player"/>, <see cref="SDG.Unturned.SteamPlayer"/>, and <see cref="Rocket.Unturned.Player.UnturnedPlayer"/>
-        /// Will throw and send a user-friendly message on invalid argument, and player not found, and argument missing.
+        /// Will throw and send a user-friendly message on invalid argument, player not found, and argument missing.
         /// </summary>
         /// <param name="index">Index of the parameter</param>
         /// <returns>Parsed Value</returns>
@@ -84,7 +84,7 @@ namespace RocketExtensions.Models
         /// <summary>
         /// Parses an argument.
         /// Supports primitive types, and <see cref="SDG.Unturned.Player"/>, <see cref="SDG.Unturned.SteamPlayer"/>, and <see cref="Rocket.Unturned.Player.UnturnedPlayer"/>
-        /// Will throw and send a user-friendly message on invalid argument, and player not found, and argument missing.
+        /// Will throw and send a user-friendly message on invalid argument, player not found, and argument missing.
         /// </summary>
         /// <param name="index">Index of the parameter</param>
         /// <param name="paramName">The parameter name to be used in User Friendly error messages</param>
