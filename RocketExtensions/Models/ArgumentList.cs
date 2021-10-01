@@ -15,39 +15,16 @@ namespace RocketExtensions.Models
             m_Items = arguments.ToList();
         }
 
-        public T Get<T>(int index, T defaultValue)
+        // Backward Compatability
+        public T Get<T>(int index, T defaultValue) => Get<T>(index, defaultValue, paramName: null);
+
+        public T Get<T>(int index) => Get<T>(index, paramName: null);
+
+        public T Get<T>(int index, T defaultValue, string paramName = null)
         {
             if (index >= m_Items.Count)
             {
                 return defaultValue;
-            }
-
-            var value = m_Items[index];
-
-            var result = StringTypeConverter.Parse<T>(value, out var res);
-
-            if (result == EParseResult.InvalidType)
-            {
-                throw new InvalidCastException($"Type {typeof(T).Name} is not valid for automatic string parsing");
-            }
-            else if (result == EParseResult.ParseFailed)
-            {
-                return defaultValue;
-            }
-            else
-            {
-                return res;
-            }
-        }
-
-
-        public T Get<T>(int index) => Get<T>(index); // Backward Compatability
-
-        public T Get<T>(int index, string paramName = null)
-        {
-            if (index >= m_Items.Count)
-            {
-                throw new ArgumentOutOfRangeException();
             }
 
             var value = m_Items[index];
@@ -63,8 +40,47 @@ namespace RocketExtensions.Models
                 if (!string.IsNullOrEmpty(paramName))
                 {
                     throw new InvalidArgumentException(paramName);
+                }
+                else
+                {
+                    throw new InvalidArgumentException(index);
+                }
+            }
+            else
+            {
+                return res;
+            }
+        }
 
-                } else
+        public T Get<T>(int index, string paramName = null)
+        {
+            if (index >= m_Items.Count)
+            {
+                if (!string.IsNullOrEmpty(paramName))
+                {
+                    throw new ArgumentMissingException(paramName);
+                }
+                else
+                {
+                    throw new ArgumentMissingException(index);
+                }
+            }
+
+            var value = m_Items[index];
+
+            var result = StringTypeConverter.Parse<T>(value, out var res);
+
+            if (result == EParseResult.InvalidType)
+            {
+                throw new InvalidCastException($"Type {typeof(T).Name} is not valid for automatic string parsing");
+            }
+            else if (result == EParseResult.ParseFailed)
+            {
+                if (!string.IsNullOrEmpty(paramName))
+                {
+                    throw new InvalidArgumentException(paramName);
+                }
+                else
                 {
                     throw new InvalidArgumentException(index);
                 }

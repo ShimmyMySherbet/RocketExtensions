@@ -7,7 +7,6 @@ using RocketExtensions.Models.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 using RocketCaller = Rocket.API.AllowedCaller;
 
 namespace RocketExtensions.Plugins
@@ -184,6 +183,11 @@ namespace RocketExtensions.Plugins
             catch (InvalidArgumentException invalid)
             {
                 await context.ReplyAsync(invalid.Message);
+                await context.ReplyAsync($"Command Usage: {Syntax}");
+            }
+            catch (ArgumentMissingException missing)
+            {
+                await context.ReplyAsync(missing.Message);
                 await context.ReplyAsync($"Command Usage: {Syntax}");
             }
             catch (WrongUsageOfCommandException usage)
