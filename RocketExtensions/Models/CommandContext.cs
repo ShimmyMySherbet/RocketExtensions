@@ -1,6 +1,8 @@
 ﻿using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
+using RocketExtensions.Models.Exceptions;
+using RocketExtensions.Plugins;
 using RocketExtensions.Utilities.ShimmyMySherbet.Extensions;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -21,9 +23,9 @@ namespace RocketExtensions.Models
         /// </summary>
         public UnturnedPlayer UnturnedPlayer => Player as UnturnedPlayer ?? null;
 
-        public IRocketCommand Command { get; }
+        public RocketCommand Command { get; }
 
-        public CommandContext(IRocketPlayer player, IRocketCommand callingCommand, string[] args)
+        public CommandContext(IRocketPlayer player, RocketCommand callingCommand, string[] args)
         {
             Command = callingCommand;
             Player = player;
@@ -34,38 +36,83 @@ namespace RocketExtensions.Models
         /// <summary>
         /// Sends a message to the caller
         /// </summary>
-        public async Task ReplyAsync(string message, Color? messageColor = null)
+        public async Task ReplyAsync(string message, Color? messageColor = null, bool rich = true)
         {
             if (messageColor == null)
             {
                 messageColor = Color.green;
             }
-            await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, Player, message, messageColor.Value);
+            await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, Player, message, messageColor.Value, rich);
+        }
+
+        /// <summary>
+        /// Translates and sends the specified message to the command caller.
+        /// </summary>
+        /// <param name="translationKey">Translations key as set in your plugin's Translations</param>
+        public async Task ReplyKeyAsync(string translationKey, params object[] arguments)
+        {
+            if (Command.Plugin == null)
+            {
+                throw new PluginNotFoundException($"Failed to find plugin instance for assembly {GetType().Assembly.GetName().Name}");
+            }
+            var translated = Command.Plugin.DefaultTranslations.Translate(translationKey, arguments);
+            await ReplyAsync(translated);
         }
 
         /// <summary>
         /// Sends a message to the specified player
         /// </summary>
-        public async Task SayAsync(IRocketPlayer player, string message, Color? messageColor = null)
+        public async Task SayAsync(IRocketPlayer player, string message, Color? messageColor = null, bool rich = true)
         {
             if (messageColor == null)
             {
                 messageColor = Color.green;
             }
-            await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, player, message, messageColor.Value);
+            await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, player, message, messageColor.Value, rich);
         }
 
         /// <summary>
         /// Sends a message to all online players.
         /// </summary>
-        public async Task Announceasync(string message, Color? messageColor = null)
+        public async Task AnnounceAsync(string message, Color? messageColor = null, bool rich = true)
         {
             if (messageColor == null)
             {
                 messageColor = Color.green;
             }
-            await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, message, messageColor.Value);
+            await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, message, messageColor.Value, rich);
         }
+
+        /// <summary>
+        /// Translates and sends the specified message to the specified player.
+        /// </summary>
+        /// <param name="translationKey">Translations key as set in your plugin's Translations</param>
+        public async Task SayKeyAsync(IRocketPlayer player, string translationKey, params object[] arguments)
+        {
+            if (Command.Plugin == null)
+            {
+                throw new PluginNotFoundException($"Failed to find plugin instance for assembly {GetType().Assembly.GetName().Name}");
+            }
+
+            var translated = Command.Plugin.DefaultTranslations.Translate(translationKey, arguments);
+            await SayAsync(player, translated);
+        }
+
+        /// <summary>
+        /// Translates and sends the specified message to all online players
+        /// </summary>
+        /// <param name="translationKey">Translations key as set in your plugin's Translations</param>
+        public async Task AnnounceKeyAsync(string translationKey, params object[] arguments)
+        {
+            if (Command.Plugin == null)
+            {
+                throw new PluginNotFoundException($"Failed to find plugin instance for assembly {GetType().Assembly.GetName().Name}");
+            }
+
+            var translated = Command.Plugin.DefaultTranslations.Translate(translationKey, arguments);
+            await AnnounceAsync(translated);
+        }
+
 
         /// <summary>
         /// Cancels the command cooldown for the current command.

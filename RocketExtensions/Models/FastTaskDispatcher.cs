@@ -1,5 +1,7 @@
 ﻿using RocketExtensions.Core;
+using SDG.Unturned;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Action = System.Action;
 using Logger = Rocket.Core.Logging.Logger;
@@ -17,7 +19,6 @@ namespace RocketExtensions.Models
 
         private static void CheckInit()
         {
-
             if (!m_Initialized)
             {
                 m_Initialized = true;
@@ -28,14 +29,23 @@ namespace RocketExtensions.Models
             CoreSetup.CheckInit();
         }
 
+        /// <summary>
+        /// Queues the action onto the game thread. Or, if called from game thread runs it immediately 
+        /// </summary>
         public static void QueueOnMainThread(Action action)
         {
             CheckInit();
-
-            lock (m_Component.m_Queue)
+            if (Thread.CurrentThread.IsGameThread())
             {
-                m_Component.m_Queue.Add(action);
-                m_Component.m_QueueLength++;
+                action();
+            }
+            else
+            {
+                lock (m_Component.m_Queue)
+                {
+                    m_Component.m_Queue.Add(action);
+                    m_Component.m_QueueLength++;
+                }
             }
         }
 

@@ -1,12 +1,18 @@
 ﻿using Cysharp.Threading.Tasks;
 using Rocket.API;
-using Rocket.Core.Logging;
+using Rocket.Core;
+using Rocket.Unturned.Chat;
 using RocketExtensions.Core;
 using RocketExtensions.Models;
 using RocketExtensions.Models.Exceptions;
+using RocketExtensions.Utilities.ShimmyMySherbet.Extensions;
+using SDG.Unturned;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
+using UnityEngine;
+using Logger = Rocket.Core.Logging.Logger;
 using RocketCaller = Rocket.API.AllowedCaller;
 
 namespace RocketExtensions.Plugins
@@ -14,6 +20,21 @@ namespace RocketExtensions.Plugins
     public abstract class RocketCommand : IRocketCommand
     {
         private AllowedCallerAttribute m_AllowedCaller;
+        private IRocketPlugin m_Plugin;
+        private bool m_PluginInit = false;
+
+        public IRocketPlugin Plugin
+        {
+            get
+            {
+                if (!m_PluginInit)
+                {
+                    m_Plugin = R.Plugins.GetPlugin(GetType().Assembly);
+                    m_PluginInit = true;
+                }
+                return m_Plugin;
+            }
+        }
 
         public RocketCaller AllowedCaller
         {
@@ -168,7 +189,7 @@ namespace RocketExtensions.Plugins
         public void Execute(IRocketPlayer caller, string[] command)
         {
             CoreSetup.CheckInit();
-            var context = new CommandContext(caller, command);
+            var context = new CommandContext(caller, this, command);
             UniTask.Run(async () => await Run(context));
         }
 
@@ -209,5 +230,60 @@ namespace RocketExtensions.Plugins
         }
 
         public abstract UniTask Execute(CommandContext context);
+
+        /// <summary>
+        /// Sends a message to the specified player
+        /// </summary>
+        public async Task SayAsync(IRocketPlayer player, string message, Color? messageColor = null, bool rich = true)
+        {
+            if (messageColor == null)
+            {
+                messageColor = Color.green;
+            }
+            await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, player, message, messageColor.Value, rich);
+        }
+
+        /// <summary>
+        /// Sends a message to all online players.
+        /// </summary>
+        public async Task AnnounceAsync(string message, Color? messageColor = null, bool rich = true)
+        {
+            if (messageColor == null)
+            {
+                messageColor = Color.green;
+            }
+            await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, message, messageColor.Value, rich);
+        }
+
+        /// <summary>
+        /// Translates and sends the specified message to the specified player.
+        /// </summary>
+        /// <param name="translationKey">Translations key as set in your plugin's Translations</param>
+        public async Task SayKeyAsync(IRocketPlayer player, string translationKey, params object[] arguments)
+        {
+            if (Plugin == null)
+            {
+                throw new PluginNotFoundException($"Failed to find plugin instance for assembly {GetType().Assembly.GetName().Name}");
+            }
+
+            var translated = Plugin.DefaultTranslations.Translate(translationKey, arguments);
+            await SayAsync(player, translated);
+        }
+
+        /// <summary>
+        /// Translates and sends the specified message to all online players
+        /// </summary>
+        /// <param name="translationKey">Translations key as set in your plugin's Translations</param>
+        public async Task AnnounceKeyAsync(IRocketPlayer player, string translationKey, params object[] arguments)
+        {
+            if (Plugin == null)
+            {
+                throw new PluginNotFoundException($"Failed to find plugin instance for assembly {GetType().Assembly.GetName().Name}");
+            }
+
+            var translated = Plugin.DefaultTranslations.Translate(translationKey, arguments);
+            await AnnounceAsync(translated);
+        }
+
     }
 }

@@ -16,6 +16,7 @@ Compatible with unmodified/stock RocketMod.</Description>
     <FileVersion>1.1.0.0</FileVersion>
     <Version>1.1.0</Version>
     <PackageReleaseNotes>Added OpenMod presense check for UniTask setup</PackageReleaseNotes>
+	<LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
@@ -31,6 +32,7 @@ Compatible with unmodified/stock RocketMod.</Description>
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Rocket.API">
       <HintPath>..\Rocket\Rocket.API.dll</HintPath>
     </Reference>

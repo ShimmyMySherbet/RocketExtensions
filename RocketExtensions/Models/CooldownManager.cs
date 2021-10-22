@@ -5,11 +5,11 @@ namespace RocketExtensions.Models
 {
     public static class CooldownManager
     {
-        private static dynamic GetCooldownItem(IRocketPlayer player, IRocketCommand command)
+        private static object GetCooldownItem(IRocketPlayer player, IRocketCommand command)
         {
             dynamic r = R.Commands;
-
-            foreach (dynamic cooldown in r.cooldown)
+            dynamic cooldowns = r.cooldown;
+            foreach (dynamic cooldown in cooldowns)
             {
                 if (cooldown.Player == player && cooldown.Command == command)
                 {
@@ -31,7 +31,7 @@ namespace RocketExtensions.Models
             return true;
         }
 
-        private static void RemoveCooldown(dynamic cooldown)
+        private static void RemoveCooldown(object cooldown)
         {
             if (cooldown != null)
             {
