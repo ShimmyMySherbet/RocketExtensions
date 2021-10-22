@@ -13,7 +13,7 @@ namespace RocketExtensions.Plugins
 {
     public abstract class RocketCommand : IRocketCommand
     {
-        private AllowedCaller m_AllowedCaller;
+        private AllowedCallerAttribute m_AllowedCaller;
 
         public RocketCaller AllowedCaller
         {
@@ -22,10 +22,10 @@ namespace RocketExtensions.Plugins
                 var typ = GetType();
                 if (m_AllowedCaller == null)
                 {
-                    m_AllowedCaller = typ.GetCustomAttribute<AllowedCaller>();
+                    m_AllowedCaller = typ.GetCustomAttribute<AllowedCallerAttribute>();
                     if (m_AllowedCaller == null)
                     {
-                        m_AllowedCaller = new AllowedCaller(RocketCaller.Both);
+                        m_AllowedCaller = new AllowedCallerAttribute(RocketCaller.Both);
                     }
                 }
 
