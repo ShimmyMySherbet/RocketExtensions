@@ -1,12 +1,12 @@
 ﻿using Cysharp.Threading.Tasks;
 using Rocket.API;
 using Rocket.Core;
+using Rocket.Core.Plugins;
 using Rocket.Unturned.Chat;
 using RocketExtensions.Core;
 using RocketExtensions.Models;
 using RocketExtensions.Models.Exceptions;
 using RocketExtensions.Utilities.ShimmyMySherbet.Extensions;
-using SDG.Unturned;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -205,19 +205,23 @@ namespace RocketExtensions.Plugins
             {
                 await context.ReplyAsync(invalid.Message, UnityEngine.Color.red);
                 await context.ReplyAsync($"Command Usage: /{Name} {Syntax}", UnityEngine.Color.cyan);
+                await context.CancelCooldownAsync();
             }
             catch (PlayerNotFoundException player)
             {
                 await context.ReplyAsync(player.Message, UnityEngine.Color.red);
+                await context.CancelCooldownAsync();
             }
             catch (ArgumentMissingException missing)
             {
                 await context.ReplyAsync(missing.Message, UnityEngine.Color.red);
                 await context.ReplyAsync($"Command Usage: /{Name} {Syntax}", UnityEngine.Color.cyan);
+                await context.CancelCooldownAsync();
             }
             catch (WrongUsageOfCommandException usage)
             {
                 await UniTask.SwitchToMainThread();
+                await context.CancelCooldownAsync();
                 throw usage;
             }
             catch (Exception ex)
@@ -227,6 +231,38 @@ namespace RocketExtensions.Plugins
                 Logger.LogError(ex.StackTrace);
                 await context.ReplyAsync("<color=red>An error occurred during the execution of this command</color>");
             }
+        }
+
+        public T GetPluginInstance<T>() where T : IRocketPlugin
+        {
+            return typeof(T).Assembly.TryGetPlugin<T>();
+        }
+
+        public T GetPluginConfig<T>() where T : IRocketPluginConfiguration
+        {
+            var cType = typeof(RocketPlugin<>).MakeGenericType(typeof(T));
+            dynamic plugin = typeof(T).Assembly.TryGetPlugin(cType);
+            if (plugin == null)
+            {
+                return default(T);
+            }
+            var configInstance = plugin.Configuration.Instance;
+
+            if (configInstance == null)
+            {
+                return default(T);
+            }
+
+            if (configInstance is T t)
+            {
+                return t;
+            }
+
+            if (typeof(T).IsAssignableFrom(configInstance.GetType()))
+            {
+                return (T)configInstance;
+            }
+            return default(T);
         }
 
         public abstract UniTask Execute(CommandContext context);
@@ -284,6 +320,5 @@ namespace RocketExtensions.Plugins
             var translated = Plugin.DefaultTranslations.Translate(translationKey, arguments);
             await AnnounceAsync(translated);
         }
-
     }
 }

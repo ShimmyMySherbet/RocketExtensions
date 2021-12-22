@@ -2,6 +2,7 @@
 using Rocket.Core;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
+using System;
 using System.Reflection;
 
 namespace RocketExtensions
@@ -44,7 +45,25 @@ namespace RocketExtensions
             {
                 return t;
             }
+            if (typeof(T).IsAssignableFrom(instance.GetType()))
+            {
+                return (T)instance;
+            }
             return default(T);
+        }
+
+        public static IRocketPlugin TryGetPlugin(this Assembly assembly, Type pluginType)
+        {
+            var instance = R.Plugins.GetPlugin(assembly);
+
+            if (instance == null)
+                return null;
+
+            if (pluginType.IsAssignableFrom(instance.GetType()))
+            {
+                return instance;
+            }
+            return null;
         }
     }
 }

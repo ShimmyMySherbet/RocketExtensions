@@ -205,10 +205,9 @@ namespace RocketExtensions.Models
         {
             if (ulong.TryParse(handle, out var uid))
             {
-                var pl = PlayerTool.getPlayer(new CSteamID(uid));
+                var pl = PlayerTool.getSteamPlayer(uid).player;
                 return pl;
             }
-
             return PlayerTool.getPlayer(handle);
         }
     }

@@ -27,20 +27,23 @@ Compatible with unmodified/stock RocketMod.</Description>
       <Version>2019.4.10</Version>
     </PackageReference>
     <PackageReference Include="OpenMod.Unturned.Redist">
-      <Version>3.21.21</Version>
+      <Version>3.21.32.1</Version>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="com.rlabrecque.steamworks.net">
+      <HintPath>D:\Servers\DevServers\Rocket_Untruned\Unturned_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Rocket.API">
-      <HintPath>..\Rocket\Rocket.API.dll</HintPath>
+      <HintPath>D:\Servers\DevServers\Rocket_Untruned\Extras\Rocket.Unturned\Rocket.API.dll</HintPath>
     </Reference>
     <Reference Include="Rocket.Core">
-      <HintPath>..\Rocket\Rocket.Core.dll</HintPath>
+      <HintPath>D:\Servers\DevServers\Rocket_Untruned\Extras\Rocket.Unturned\Rocket.Core.dll</HintPath>
     </Reference>
     <Reference Include="Rocket.Unturned">
-      <HintPath>..\Rocket\Rocket.Unturned.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Legally-Distinct-Missile-master\Rocket.Unturned\bin\Debug\Rocket.Unturned.dll</HintPath>
     </Reference>
   </ItemGroup>
 

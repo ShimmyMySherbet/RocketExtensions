@@ -1,46 +1,55 @@
-﻿using Rocket.API;
+﻿using System;
+using System.Collections;
+using System.Linq;
+using System.Reflection;
+using Rocket.API;
 using Rocket.Core;
+using Rocket.Core.Commands;
 
 namespace RocketExtensions.Models
 {
     public static class CooldownManager
     {
-        private static object GetCooldownItem(IRocketPlayer player, IRocketCommand command)
-        {
-            dynamic r = R.Commands;
-            dynamic cooldowns = r.cooldown;
-            foreach (dynamic cooldown in cooldowns)
-            {
-                if (cooldown.Player == player && cooldown.Command == command)
-                {
-                    return cooldown;
-                }
-            }
+        private static readonly Assembly a_RocketCore = typeof(R).Assembly;
+        private static readonly Type t_Cooldown = a_RocketCore.GetTypes().FirstOrDefault(x => x.Name == "RocketCommandCooldown"); // internal class
+        private static readonly FieldInfo f_Cooldowns = typeof(RocketCommandManager).GetField("cooldown", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo f_CooldownPlayer = t_Cooldown.GetField("Player", BindingFlags.Public | BindingFlags.Instance);
+        private static readonly FieldInfo f_CooldownCommand = t_Cooldown.GetField("Command", BindingFlags.Public | BindingFlags.Instance);
+        private static IList Cooldowns => (IList)f_Cooldowns.GetValue(R.Commands);
 
-            return null;
-        }
+        private static IRocketPlayer GetPlayer(object cooldown) => (IRocketPlayer)f_CooldownPlayer.GetValue(cooldown);
 
+        private static IRocketCommand GetCommand(object cooldown) => (IRocketCommand)f_CooldownCommand.GetValue(cooldown);
+
+        /// <summary>
+        /// Cancels a cooldown
+        /// </summary>
+        /// <param name="player">Target player</param>
+        /// <param name="command">Target command</param>
+        /// <returns>True if the cooldown was found and canceled</returns>
         public static bool CancelCooldown(IRocketPlayer player, IRocketCommand command)
         {
-            var cooldown = GetCooldownItem(player, command);
-            if (cooldown == null)
+            var cooldowns = Cooldowns;
+            lock (cooldowns)
             {
-                return false;
-            }
-            RemoveCooldown(cooldown);
-            return true;
-        }
-
-        private static void RemoveCooldown(object cooldown)
-        {
-            if (cooldown != null)
-            {
-                dynamic r = R.Commands;
-
-                if (r.cooldown.Contains(cooldown))
+                object cooldown = null;
+                foreach (var cd in cooldowns)
                 {
-                    r.cooldown.Remove(cooldown);
+                    if (GetCommand(cd).Name.Equals(command.Name, StringComparison.InvariantCultureIgnoreCase) &&
+                        GetPlayer(cd).Id.Equals(player.Id, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        cooldown = cd;
+                        break;
+                    }
                 }
+
+                if (cooldown == null)
+                {
+                    return false;
+                }
+
+                cooldowns.Remove(cooldown);
+                return true;
             }
         }
     }

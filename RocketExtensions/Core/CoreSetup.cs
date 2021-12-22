@@ -7,6 +7,11 @@ using UnityEngine.LowLevel;
 
 namespace RocketExtensions.Core
 {
+    /// <summary>
+    /// Used to setup unitask.
+    /// Since this is a library and not a plugin, we don't have any code that runs at startup.
+    /// Only when the assembly is invoked from a plugin
+    /// </summary>
     internal static class CoreSetup
     {
         private static bool m_Initialized { get; set; } = false;
@@ -25,7 +30,7 @@ namespace RocketExtensions.Core
             // Origonal from https://github.com/openmod/openmod/blob/main/unityengine/OpenMod.UnityEngine/UnityHostLifetime.cs
             // Origonal Author: Trojaner
 
-            if (!IsOpenmodPresent())
+            if (!IsOpenmodPresent()) // If openmod is present, it would have already initialized the sync context and player loop
             {
                 var unitySynchronizationContextField = typeof(PlayerLoopHelper).GetField("unitySynchronizationContext", BindingFlags.Static | BindingFlags.NonPublic);
 

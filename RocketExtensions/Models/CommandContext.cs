@@ -3,6 +3,7 @@ using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
 using RocketExtensions.Models.Exceptions;
 using RocketExtensions.Plugins;
+using RocketExtensions.Utilities;
 using RocketExtensions.Utilities.ShimmyMySherbet.Extensions;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -42,6 +43,10 @@ namespace RocketExtensions.Models
             {
                 messageColor = Color.green;
             }
+            if (rich)
+            {
+                message = message.ReformatColor();
+            }
             await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, Player, message, messageColor.Value, rich);
         }
 
@@ -68,6 +73,10 @@ namespace RocketExtensions.Models
             {
                 messageColor = Color.green;
             }
+            if (rich)
+            {
+                message = message.ReformatColor();
+            }
             await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, player, message, messageColor.Value, rich);
         }
 
@@ -79,6 +88,10 @@ namespace RocketExtensions.Models
             if (messageColor == null)
             {
                 messageColor = Color.green;
+            }
+            if (rich)
+            {
+                message = message.ReformatColor();
             }
             await ThreadTool.RunOnGameThreadAsync(UnturnedChat.Say, message, messageColor.Value, rich);
         }
@@ -117,7 +130,7 @@ namespace RocketExtensions.Models
         /// <summary>
         /// Cancels the command cooldown for the current command.
         /// </summary>
-        public async Task<bool> SendCancelCooldown()
+        public async Task<bool> CancelCooldownAsync()
         {
             return await ThreadTool.RunOnGameThreadAsync(CooldownManager.CancelCooldown, Player, Command);
         }
