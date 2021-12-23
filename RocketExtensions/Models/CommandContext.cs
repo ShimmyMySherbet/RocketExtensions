@@ -142,7 +142,7 @@ namespace RocketExtensions.Models
         /// <returns>True if a new cooldown was created, or false if an existing one was updated</returns>
         public async Task<bool> SetCooldownAsync(uint cooldown)
         {
-            return await CooldownManager.SetCooldownAsync(Player, Command, cooldown)
+            return await CooldownManager.SetCooldownAsync(Player, Command, cooldown);
         }
     }
 }

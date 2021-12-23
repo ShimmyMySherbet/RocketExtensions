@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>ShimmyMySherbet.RocketExtensions.RocketMod.Redist</id>
+    <version>4.9.3.4</version>
+    <authors>fr34kyn01535, SDGNelson</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>RocketExtensions.png</icon>
+    <description>Redist package for Legally Distinct Missile, AKA RocketMod. Developed by fr34kyn01535 and maintained by SDGNelson</description>
+    <releaseNotes>Added OpenMod presense check for UniTask setup</releaseNotes>
+    <tags>RocketMod LegallyDistinctMissile Redist RocketExtensions</tags>
+    <repository url="https://github.com/SmartlyDressedGames/Legally-Distinct-Missile" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="OpenMod.UnityEngine.Redist" version="2019.4.10" exclude="Build,Analyzers" />
+        <dependency id="OpenMod.Unturned.Redist" version="3.21.21" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
