@@ -1,11 +1,11 @@
-﻿using Rocket.API;
+﻿using System.Threading.Tasks;
+using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
 using RocketExtensions.Models.Exceptions;
 using RocketExtensions.Plugins;
 using RocketExtensions.Utilities;
 using RocketExtensions.Utilities.ShimmyMySherbet.Extensions;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RocketExtensions.Models
@@ -126,13 +126,23 @@ namespace RocketExtensions.Models
             await AnnounceAsync(translated);
         }
 
-
         /// <summary>
         /// Cancels the command cooldown for the current command.
         /// </summary>
+        /// <returns>True if the cooldown was found and cancled</returns>
         public async Task<bool> CancelCooldownAsync()
         {
-            return await ThreadTool.RunOnGameThreadAsync(CooldownManager.CancelCooldown, Player, Command);
+            return await CooldownManager.CancelCooldownAsync(Player, Command);
+        }
+
+        /// <summary>
+        /// Sets a command cooldown for the current command
+        /// </summary>
+        /// <param name="cooldown">Cooldown time in seconds</param>
+        /// <returns>True if a new cooldown was created, or false if an existing one was updated</returns>
+        public async Task<bool> SetCooldownAsync(uint cooldown)
+        {
+            return await CooldownManager.SetCooldownAsync(Player, Command, cooldown)
         }
     }
 }
