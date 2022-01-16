@@ -1,5 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Rocket.API;
+using Rocket.API.Serialisation;
+using Rocket.Core;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
 using RocketExtensions.Models.Exceptions;
@@ -19,6 +24,12 @@ namespace RocketExtensions.Models
         public string[] CommandRawArguments { get; private set; }
         public ArgumentList Arguments { get; private set; }
 
+        public ulong PlayerID => LDMPlayer.PlayerID;
+
+        public bool IsConsole => LDMPlayer.IsConsole;
+
+        public LDMPlayer LDMPlayer { get; }
+
         /// <summary>
         /// The caller as an UnturnedPlayer. Null when called from console.
         /// </summary>
@@ -32,6 +43,7 @@ namespace RocketExtensions.Models
             Player = player;
             CommandRawArguments = args;
             Arguments = new ArgumentList(args);
+            LDMPlayer = LDMPlayer.FromRocketPlayer(player);
         }
 
         /// <summary>
@@ -143,6 +155,26 @@ namespace RocketExtensions.Models
         public async Task<bool> SetCooldownAsync(uint cooldown)
         {
             return await CooldownManager.SetCooldownAsync(Player, Command, cooldown);
+        }
+
+        /// <summary>
+        /// Checks if a player has a permission. Runs async on the game thread.
+        /// </summary>
+        public async Task<bool> CheckPermissionAsync(string permission)
+        {
+            return await ThreadTool.RunOnGameThreadAsync(Player.HasPermission, permission);
+        }
+
+        public async Task<List<Permission>> GetPermissionsAsync()
+        {
+            return await ThreadTool.RunOnGameThreadAsync(R.Permissions.GetPermissions, Player);
+        }
+
+        public async Task<string[]> GetPermissionKeysAsync()
+        {
+            return (await GetPermissionsAsync())
+                .Select(x => x.Name)
+                .ToArray();
         }
     }
 }
