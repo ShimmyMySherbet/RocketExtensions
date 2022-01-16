@@ -16,7 +16,6 @@ namespace RocketExtensions.Plugins
         {
             this.Syntax = Syntax;
             this.Help = Help;
-            UnturnedPlayer
         }
     }
 }
