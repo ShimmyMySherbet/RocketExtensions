@@ -15,24 +15,7 @@ namespace TestPlugin
         public override void LoadPlugin()
         {
             base.LoadPlugin();
-            //var asm = typeof(R)?.Assembly?.GetType("Rocket.Core.Commands.RocketCommandCooldown");
-            //Console.WriteLine($"via f: {asm != null}");
-
-            //var t = Type.GetType("Rocket.Core.Commands.RocketCommandCooldown");
-            //Console.WriteLine($"HT: {t != null}");
-            //t = Type.GetType("Rocket.Core.Rocket.Core.Commands.RocketCommandCooldown");
-            //Console.WriteLine($"HT: {t != null}");
-
-            //var asmr = typeof(R).Assembly;
-
-            //var tt = asmr.GetTypes().FirstOrDefault(x => x.Name == "RocketCommandCooldown");
-            //Console.WriteLine($"VIAD: {tt != null}");
-            
-            //Console.ReadLine();
             Logger.Log("Loaded!");
-
-
-
 
         }
 

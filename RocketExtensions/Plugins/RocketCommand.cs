@@ -302,7 +302,7 @@ namespace RocketExtensions.Plugins
                 throw new PluginNotFoundException($"Failed to find plugin instance for assembly {GetType().Assembly.GetName().Name}");
             }
 
-            var translated = Plugin.DefaultTranslations.Translate(translationKey, arguments);
+            var translated = Plugin.Translations.Instance.Translate(translationKey, arguments);
             await SayAsync(player, translated);
         }
 
@@ -317,7 +317,7 @@ namespace RocketExtensions.Plugins
                 throw new PluginNotFoundException($"Failed to find plugin instance for assembly {GetType().Assembly.GetName().Name}");
             }
 
-            var translated = Plugin.DefaultTranslations.Translate(translationKey, arguments);
+            var translated = Plugin.Translations.Instance.Translate(translationKey, arguments);
             await AnnounceAsync(translated);
         }
     }

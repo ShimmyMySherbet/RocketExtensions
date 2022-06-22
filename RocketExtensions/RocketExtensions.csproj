@@ -33,19 +33,7 @@ Compatible with unmodified/stock RocketMod.</Description>
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="com.rlabrecque.steamworks.net">
-      <HintPath>D:\Servers\DevServers\Rocket_Untruned\Unturned_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Rocket.API">
-      <HintPath>D:\Servers\DevServers\Rocket_Untruned\Extras\Rocket.Unturned\Rocket.API.dll</HintPath>
-    </Reference>
-    <Reference Include="Rocket.Core">
-      <HintPath>D:\Servers\DevServers\Rocket_Untruned\Extras\Rocket.Unturned\Rocket.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Rocket.Unturned">
-      <HintPath>..\..\..\..\Desktop\Legally-Distinct-Missile-master\Rocket.Unturned\bin\Debug\Rocket.Unturned.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +41,10 @@ Compatible with unmodified/stock RocketMod.</Description>
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ShimmyMySherbet.RocketExtensions.RocketMod.Redist" Version="4.9.3.5" />
   </ItemGroup>
 
 </Project>
