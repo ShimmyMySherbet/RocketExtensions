@@ -12,9 +12,9 @@ Compatible with unmodified/stock RocketMod.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>ShimmyMySherbet</Authors>
     <Company>ShimmyMySherbet</Company>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
-    <Version>2.1.0</Version>
+    <AssemblyVersion>2.1.2.0</AssemblyVersion>
+    <FileVersion>2.1.2.0</FileVersion>
+    <Version>2.1.2</Version>
     <PackageReleaseNotes>Added LDMPlayer, PermissionExtensions, Custom argument parsers, and updated Unturned version.</PackageReleaseNotes>
 	<LangVersion>8.0</LangVersion>
 	<PackageProjectUrl></PackageProjectUrl>
